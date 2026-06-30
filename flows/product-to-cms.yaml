@@ -1,0 +1,28 @@
+flow:
+  name: "Product → PIM → CMS → Website"
+  description: "End-to-end product data flow to public web"
+  
+  source: "ERP"
+  target: "Website"
+  via: "Azure Integration Layer"
+
+  type: "event"
+
+  systems:
+    - ERP
+    - Integration Layer
+    - PIM
+    - CMS
+    - Website
+
+  data:
+    - product_id
+    - attributes
+    - pricing
+    - media
+
+  owner:
+    business: "Product Management"
+    it: "Integration / Web Team"
+
+  status: "current"
