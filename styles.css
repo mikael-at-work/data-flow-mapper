@@ -1,0 +1,120 @@
+/* ===== BASE ===== */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  background: #eef2f7;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: linear-gradient(90deg, #1f3b5b, #2d5b8a);
+  color: white;
+  padding: 18px 28px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 280px;
+  background: #1f2937;
+  color: white;
+  padding: 20px;
+  border-right: 1px solid #111827;
+}
+
+.flow-card {
+  background: #374151;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.flow-card:hover {
+  background: #4b5563;
+  transform: translateX(3px);
+}
+
+.flow-card.active {
+  background: #3b82f6;
+}
+
+/* ===== MAIN ===== */
+.main {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.card p {
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+
+/* ===== META GRID ===== */
+.meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.meta div {
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #111827;
+}
+
+/* ===== TAGS ===== */
+.tag {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1e3a8a;
+  margin: 4px 6px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ===== DIAGRAM ===== */
+#diagram {
+  min-height: 320px;
+}
+
+/* Mermaid container */
+.mermaid {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* Ensure diagram scales nicely */
+.mermaid svg {
+  max-width: 100%;
+}

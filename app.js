@@ -1,4 +1,4 @@
-// Initialize Mermaid ONCE
+// INIT MERMAID
 mermaid.initialize({
   startOnLoad: false,
   theme: "default",
@@ -7,7 +7,7 @@ mermaid.initialize({
   }
 });
 
-// Your flow files
+// FILES
 const flowFiles = [
   "flows/product-to-cms.yaml",
   "flows/customer-data.yaml"
@@ -17,7 +17,7 @@ const flowList = document.getElementById("flowList");
 const details = document.getElementById("details");
 const diagramContainer = document.getElementById("diagram");
 
-// Load flows into sidebar
+// LOAD SIDEBAR
 async function loadFlows() {
   for (let file of flowFiles) {
     try {
@@ -30,31 +30,26 @@ async function loadFlows() {
       card.innerText = data.flow.name;
 
       card.onclick = () => {
-        setActive(card);
         renderFlow(data);
+
+        document.querySelectorAll(".flow-card")
+          .forEach(c => c.classList.remove("active"));
+
+        card.classList.add("active");
       };
 
       flowList.appendChild(card);
 
     } catch (err) {
-      console.error("Failed to load flow:", file, err);
+      console.error("Error loading flow:", err);
     }
   }
 }
 
-// Highlight active flow in sidebar
-function setActive(selectedCard) {
-  document.querySelectorAll(".flow-card").forEach(c => {
-    c.classList.remove("active");
-  });
-
-  selectedCard.classList.add("active");
-}
-
-// Render selected flow
+// RENDER FLOW
 function renderFlow(data) {
 
-  // ===== DETAILS CARD =====
+  // ===== DETAILS =====
   details.innerHTML = `
     <div class="card">
       <h2>${data.flow.name}</h2>
@@ -70,3 +65,47 @@ function renderFlow(data) {
       </div>
 
       <div style="margin-top:10px;">
+        ${(data.flow.data || []).map(d => `<span class="tag">${d}</span>`).join("")}
+      </div>
+    </div>
+  `;
+
+  // ===== BUILD DIAGRAM =====
+  const systems = data.flow.systems || [
+    data.flow.source,
+    data.flow.via,
+    data.flow.target
+  ];
+
+  let edges = "";
+  for (let i = 0; i < systems.length - 1; i++) {
+    edges += `${systems[i]} --> ${systems[i + 1]}\n`;
+  }
+
+  const diagramDefinition = `
+flowchart LR
+${edges}
+
+style ${data.flow.source} fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+style ${data.flow.via} fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+style ${data.flow.target} fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+`;
+
+  // CLEAN CONTAINER
+  diagramContainer.innerHTML = "";
+
+  // CREATE NEW MERMAID BLOCK
+  const el = document.createElement("div");
+  el.className = "mermaid";
+  el.textContent = diagramDefinition;
+
+  diagramContainer.appendChild(el);
+
+  // RENDER
+  setTimeout(() => {
+    mermaid.init(undefined, el);
+  }, 0);
+}
+
+// START
+loadFlows();
