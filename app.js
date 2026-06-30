@@ -25,6 +25,8 @@ async function loadFlows() {
       const text = await res.text();
       const data = jsyaml.load(text);
 
+      console.log("Loaded flow:", data.flow.name);
+
       const card = document.createElement("div");
       card.className = "flow-card";
       card.innerText = data.flow.name;
@@ -43,6 +45,10 @@ async function loadFlows() {
     } catch (err) {
       console.error("Error loading flow:", err);
     }
+  }
+
+  if (flowList.firstChild) {
+    flowList.firstChild.click();
   }
 }
 
