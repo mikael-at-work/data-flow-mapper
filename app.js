@@ -47,16 +47,29 @@ function renderFlow(data) {
 
   // DIAGRAM
   const systems = data.flow.systems || [
-    data.flow.source,
-    data.flow.via,
-    data.flow.target
-  ];
+  data.flow.source,
+  data.flow.via,
+  data.flow.target
+];
 
-  const diagram = `graph LR\n${systems.join(" --> ")}`;
+let edges = "";
 
-  diagramDiv.innerHTML = diagram;
+for (let i = 0; i < systems.length - 1; i++) {
+  edges += `${systems[i]} --> ${systems[i+1]}\n`;
+}
 
-  mermaid.init(undefined, diagramDiv);
+const diagram = `
+flowchart LR
+${edges}
+
+style ${data.flow.source} fill:#dbeafe,stroke:#3b82f6
+style ${data.flow.via} fill:#ede9fe,stroke:#7c3aed
+style ${data.flow.target} fill:#dcfce7,stroke:#16a34a
+`;
+
+diagramDiv.innerHTML = diagram;
+mermaid.init(undefined, diagramDiv);
+
 }
 
 loadFlows();
