@@ -1,3 +1,13 @@
+// Initialize Mermaid ONCE
+mermaid.initialize({
+  startOnLoad: false,
+  theme: "default",
+  flowchart: {
+    curve: "basis"
+  }
+});
+
+// Your flow files
 const flowFiles = [
   "flows/product-to-cms.yaml",
   "flows/customer-data.yaml"
@@ -5,26 +15,46 @@ const flowFiles = [
 
 const flowList = document.getElementById("flowList");
 const details = document.getElementById("details");
-const diagramDiv = document.getElementById("diagram");
+const diagramContainer = document.getElementById("diagram");
 
+// Load flows into sidebar
 async function loadFlows() {
   for (let file of flowFiles) {
-    const res = await fetch(file);
-    const text = await res.text();
-    const data = jsyaml.load(text);
+    try {
+      const res = await fetch(file);
+      const text = await res.text();
+      const data = jsyaml.load(text);
 
-    const card = document.createElement("div");
-    card.className = "flow-card";
-    card.innerText = data.flow.name;
+      const card = document.createElement("div");
+      card.className = "flow-card";
+      card.innerText = data.flow.name;
 
-    card.onclick = () => renderFlow(data);
+      card.onclick = () => {
+        setActive(card);
+        renderFlow(data);
+      };
 
-    flowList.appendChild(card);
+      flowList.appendChild(card);
+
+    } catch (err) {
+      console.error("Failed to load flow:", file, err);
+    }
   }
 }
 
+// Highlight active flow in sidebar
+function setActive(selectedCard) {
+  document.querySelectorAll(".flow-card").forEach(c => {
+    c.classList.remove("active");
+  });
+
+  selectedCard.classList.add("active");
+}
+
+// Render selected flow
 function renderFlow(data) {
-  // DETAILS
+
+  // ===== DETAILS CARD =====
   details.innerHTML = `
     <div class="card">
       <h2>${data.flow.name}</h2>
@@ -40,36 +70,3 @@ function renderFlow(data) {
       </div>
 
       <div style="margin-top:10px;">
-        ${(data.flow.data || []).map(d => `<span class="tag">${d}</span>`).join("")}
-      </div>
-    </div>
-  `;
-
-  // DIAGRAM
-  const systems = data.flow.systems || [
-  data.flow.source,
-  data.flow.via,
-  data.flow.target
-];
-
-let edges = "";
-
-for (let i = 0; i < systems.length - 1; i++) {
-  edges += `${systems[i]} --> ${systems[i+1]}\n`;
-}
-
-const diagram = `
-flowchart LR
-${edges}
-
-style ${data.flow.source} fill:#dbeafe,stroke:#3b82f6
-style ${data.flow.via} fill:#ede9fe,stroke:#7c3aed
-style ${data.flow.target} fill:#dcfce7,stroke:#16a34a
-`;
-
-diagramDiv.innerHTML = diagram;
-mermaid.init(undefined, diagramDiv);
-
-}
-
-loadFlows();
