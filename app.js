@@ -84,18 +84,26 @@ details.innerHTML = `
     data.flow.target
   ];
 
+  function safeId(name) {
+    return name.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_]/g, "");
+  }
+
   let edges = "";
+
   for (let i = 0; i < systems.length - 1; i++) {
-    edges += `${systems[i]} --> ${systems[i + 1]}\n`;
+    const fromId = safeId(systems[i]);
+    const toId = safeId(systems[i + 1]);
+
+    edges += `${fromId}["${systems[i]}"] --> ${toId}["${systems[i + 1]}"]\n`;
   }
 
   const diagramDefinition = `
 flowchart LR
 ${edges}
 
-style ${data.flow.source} fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
-style ${data.flow.via} fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
-style ${data.flow.target} fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+style ${safeId(data.flow.source)} fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+style ${safeId(data.flow.via)} fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+style ${safeId(data.flow.target)} fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 `;
 
   // CLEAN CONTAINER
