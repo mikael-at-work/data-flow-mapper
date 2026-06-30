@@ -1,18 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Data Flow Mapper</title>
-  https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.jsscript>
-  https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.jsscript>
-  app.jsscript>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+  <!-- Styling -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: #1f3b5b;
+      color: white;
+      padding: 16px 24px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 56px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: white;
+      border-right: 1px solid #ddd;
+      padding: 16px;
+    }
+
+    .flow-card {
+      cursor: pointer;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      transition: 0.2s;
+    }
+
+    .flow-card:hover {
+      background: #eef3f8;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 24px;
+    }
+
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .meta div {
+      background: #f1f4f8;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #dbeafe;
+      margin-right: 6px;
+      font-size: 12px;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Data Flow Mapper</h1>
+  <header>Data Flow Mapper</header>
 
-  <select id="flowSelector"></select>
+  <div class="container">
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="flowList"></div>
 
-  <div id="flowDetails"></div>
-  <div class="mermaid" id="diagram"></div>
+    <!-- Main -->
+    <div class="main">
+      <div id="details"></div>
+      <div class="card">
+        <div id="diagram" class="mermaid"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
