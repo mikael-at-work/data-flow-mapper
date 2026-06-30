@@ -45,3 +45,12 @@ flow:
   owner:
     business: "Product Management"
     it: "Integration Team"
+
+## Example Flow: Product → Website
+
+```mermaid
+flowchart LR
+ERP -->|Event| IntegrationLayer
+IntegrationLayer --> PIM
+PIM --> CMS
+CMS --> Website
