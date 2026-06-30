@@ -1,20 +1,23 @@
-```customer-data.yaml
 flow:
   name: "Customer → CRM → CDP"
-  
+  description: "Customer data flow for marketing and personalization"
+
   source: "CRM"
   target: "CDP"
   via: "Integration Layer"
 
   type: "api"
 
-  data:
-    - customer_id
-    - contact_details
-    - preferences
+  systems:
+    - CRM
+    - Integration Layer
+    - CDP
 
   owner:
     business: "Marketing"
     it: "Integration Team"
 
-  status: "current"
+  data:
+    - customer_id
+    - email
+    - preferences

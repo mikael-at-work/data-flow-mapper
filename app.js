@@ -50,7 +50,7 @@ async function loadFlows() {
 function renderFlow(data) {
 
   // ===== DETAILS =====
-  details.innerHTML = `
+details.innerHTML = `
     <div class="card">
       <h2>${data.flow.name}</h2>
       <p>${data.flow.description || ""}</p>
@@ -68,7 +68,8 @@ function renderFlow(data) {
         ${(data.flow.data || []).map(d => `<span class="tag">${d}</span>`).join("")}
       </div>
     </div>
-  `;
+`;
+
 
   // ===== BUILD DIAGRAM =====
   const systems = data.flow.systems || [
