@@ -1,0 +1,20 @@
+```customer-data.yaml
+flow:
+  name: "Customer → CRM → CDP"
+  
+  source: "CRM"
+  target: "CDP"
+  via: "Integration Layer"
+
+  type: "api"
+
+  data:
+    - customer_id
+    - contact_details
+    - preferences
+
+  owner:
+    business: "Marketing"
+    it: "Integration Team"
+
+  status: "current"
